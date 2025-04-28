@@ -1,0 +1,236 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aanchal's Interactive Webpage</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(to right, #fceabb, #f8b500);
+            color: #333;
+        }.container {
+        background-color: #fff8e1;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        margin-bottom: 25px;
+    }
+
+    h1, h2, h3 {
+        text-align: center;
+        color: #c0392b;
+        font-weight: 700;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 2px solid #f39c12;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #e67e22;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        display: block;
+        margin: auto;
+    }
+
+    button:hover {
+        background-color: #d35400;
+    }
+
+    .error-message {
+        color: red;
+        font-size: 0.9em;
+    }
+
+    .navigation {
+        background-color: #34495e;
+        color: white;
+        padding: 1em;
+        margin-bottom: 20px;
+        border-radius: 10px;
+    }
+
+    .nav-list {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-list li a {
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .responsive-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .main-content, .sidebar {
+        flex: 1;
+        min-width: 280px;
+    }
+
+    .todo-input-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+    footer {
+        text-align: center;
+        margin-top: 30px;
+        font-size: 0.9em;
+        color: #7f8c8d;
+    }
+</style>
+
+</head>
+<body><div class="container">
+    <h1>Contact Aanchal Yadav</h1>
+    <form id="contactForm">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" required>
+            <div class="error-message" id="nameError"></div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" required>
+            <div class="error-message" id="emailError"></div>
+        </div>
+        <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" rows="4" required></textarea>
+            <div class="error-message" id="messageError"></div>
+        </div>
+        <button type="submit">Send Message</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>About Me</h2>
+    <p>I’m <strong>Aanchal Yadav</strong>, a passionate CSE student exploring everything from cybersecurity to generative AI. This webpage includes a contact form, responsive layout, and a to-do list. I built it using HTML, CSS, and JavaScript to showcase my web dev skills!</p>
+</div>
+
+<div class="container">
+    <h2>Navigation</h2>
+    <nav class="navigation">
+        <ul class="nav-list">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Projects</a></li>
+            <li><a href="#">Internships</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="container">
+    <h2>To-Do List</h2>
+    <div class="todo-input-group">
+        <input type="text" id="newTask" placeholder="Enter task">
+        <button id="addTaskBtn">Add Task</button>
+    </div>
+    <ul id="todoList"></ul>
+</div>
+
+<footer>
+    &copy; 2025 Aanchal Yadav | Built with HTML, CSS & JS
+</footer>
+
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+        let name = document.getElementById('name');
+        let email = document.getElementById('email');
+        let message = document.getElementById('message');
+        let valid = true;
+
+        if (name.value.trim() === '') {
+            document.getElementById('nameError').textContent = 'Name is required';
+            valid = false;
+        } else {
+            document.getElementById('nameError').textContent = '';
+        }
+
+        if (email.value.trim() === '') {
+            document.getElementById('emailError').textContent = 'Email is required';
+            valid = false;
+        } else {
+            document.getElementById('emailError').textContent = '';
+        }
+
+        if (message.value.trim() === '') {
+            document.getElementById('messageError').textContent = 'Message is required';
+            valid = false;
+        } else {
+            document.getElementById('messageError').textContent = '';
+        }
+
+        if (valid) {
+            alert('Thanks for reaching out, Aanchal will get back to you soon!');
+            this.reset();
+        }
+    });
+
+    document.getElementById('addTaskBtn').addEventListener('click', addTask);
+    document.getElementById('newTask').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            addTask();
+        }
+    });
+
+    function addTask() {
+        const taskInput = document.getElementById('newTask');
+        const taskText = taskInput.value.trim();
+        if (taskText !== '') {
+            const li = document.createElement('li');
+            li.textContent = taskText;
+            const delBtn = document.createElement('button');
+            delBtn.textContent = 'Delete';
+            delBtn.className = 'delete-btn';
+            delBtn.onclick = function () {
+                li.remove();
+            };
+            li.appendChild(delBtn);
+            document.getElementById('todoList').appendChild(li);
+            taskInput.value = '';
+        }
+    }
+</script>
+
+</body>
+</html>
